@@ -51,7 +51,7 @@ Just see code below, let's configure the `grunt-multi` task:
 
 ```js
 multi: {
-    // Yes, you can use file pattern to match files or paths, more detail
+    // Yes, you can use file pattern to match files or paths
     pattern: {
         options: {
             vars: {
@@ -73,7 +73,7 @@ multi: {
             }
         }
     },
-    // An more smart way may be just read from an external file.
+    // A more smart way might be read from an external file.
     external: {
         options: {
             vars: {
@@ -84,7 +84,7 @@ multi: {
             }
         }
     },
-    // However, sometimes you just want to specify a constant variable.
+    // However, sometimes you may want to specify a constant variable.
     constant: {
         options: {
             vars: {
@@ -113,14 +113,14 @@ multi: {
 }
 ```
 
-After configuration you must add the task in front of your task List, let change the code like this:
+After configuration you must add the `multi` task in front of your task List, change the code like below:
 
 ```js
 grunt.registerTask('build', [ 'multi:list', 'copy' ]);
 ```
 
-But when you run `grunt build` again, nothing magic happen. Yeah, that's the point, for the risk of ruining your old task, the `grunt-multi` will not work until you specify a `--multi` flag, so just try it, nothing will hurt you.
+But when you run `grunt build` again, nothing magic happen. That's the point, for the risk of ruining your old task, the `grunt-multi` would not work until you specify a `--multi` flag, so just try it, nothing will hurt you.
 
-One more thing, you can use a additional flat `--debug` to console out the particular configuration for a single thread.
+One more thing, you can also add an additional flat `--debug` to console out the particular configuration for a single thread.
 
 Enjoy!
