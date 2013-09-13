@@ -1,0 +1,10 @@
+{
+    "name": "grunt-multi-test",
+    "version": "0.0.1",
+    "author": "yinruo.nyj <yinruo.nyj@taobao.com>",
+    "license": "BSD",
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-copy": "*"
+    }
+}

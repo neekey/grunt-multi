@@ -1,0 +1,29 @@
+{
+    "name": "grunt-multi",
+    "version": "0.0.1",
+    "description": "Run Grunt task with multi-configuration.",
+    "scripts": {
+        "test": "mocha -t 0 -R spec"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/neekey/grunt-multi.git"
+    },
+    "bugs": {
+        "url": "http://github.com/neekey/grunt-multi/issues/new"
+    },
+    "keywords": [
+        "gruntplugin"
+    ],
+    "contributors": [
+        {
+            "name": "yinruo",
+            "email": "yinruo.nyj@taobao.com"
+        }
+    ],
+    "license": "MIT",
+    "devDependencies": {
+        "fs-extra": "~0.6.3",
+        "mocha": "~1.12.0"
+    }
+}
