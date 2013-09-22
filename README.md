@@ -13,7 +13,6 @@ outTarget: 'mod1.js',
 copy: {
    subDir: {
        files: [
-           // widget中的字体
            {
                expand: true,
                cwd: 'src',
@@ -24,7 +23,6 @@ copy: {
    },
    out: {
        files: [
-           // widget中的字体
            {
                expand: true,
                cwd: 'src',
