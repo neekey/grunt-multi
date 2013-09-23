@@ -171,6 +171,31 @@ describe('grunt-multi TEST', function () {
         });
     });
 
+    it('USE Command', function (done) {
+
+        // 执行grunt
+        // 先安装npm 依赖
+        ChildProcess.exec( 'grunt cmd --multi --debug --multi-vars page_list=a,b,c:out_target=mod2.js', function (error, stdout, stderr) {
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+            if (error) {
+                done( error );
+            }
+            else {
+                assertFiles( [
+                    'build/a/app.js',
+                    'build/a/index.js',
+                    'build/b/home.js',
+                    'build/b/profile.js',
+                    'build/c/dashboard.js',
+                    'build/c/list.js',
+                    'build/mod2.js'
+                ]);
+                done(null);
+            }
+        });
+    });
+
 });
 
 

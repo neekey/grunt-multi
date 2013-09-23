@@ -120,5 +120,12 @@ grunt.registerTask('build', [ 'multi:list', 'copy' ]);
 But when you run `grunt build` again, nothing magic happen. That's the point, for the risk of ruining your old task, the `grunt-multi` would not work until you specify a `--multi` flag, so just try it, nothing will hurt you.
 
 One more thing, you can also add an additional flat `--debug` to console out the particular configuration for a single thread.
+ 
+### Specify `vars` with command
+
+```bash
+$ grunt build --multi --multi-vars page_list=a,b,c:outTarget=mod2.js
+```
+Note that this will override the configuration in `gruntfile.js`.
 
 Enjoy!

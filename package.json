@@ -1,6 +1,6 @@
 {
     "name": "grunt-multi",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Run Grunt task with multi-configuration.",
     "scripts": {
         "test": "mocha -t 0 -R spec"

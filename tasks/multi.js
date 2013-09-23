@@ -51,7 +51,7 @@ module.exports = function (grunt) {
 
                 // Get the raw `multi` config, in case the glob-patterns have been replaced by grunt automatically.
                 var options = grunt.config.getRaw( this.name )[ this.target ].options;
-                var vars = options.vars;
+                var vars = options.vars || {};
                 // Stringify the config, to simplify the template process.
                 var configStr = JSON.stringify( options.config );
                 // All the var lists go here
@@ -69,6 +69,30 @@ module.exports = function (grunt) {
                  * @type {Array}
                  */
                 var configs = [];
+
+                /**
+                 * If multi-vars specified, it will override the configuration.
+                 * example: --multi-vars a=1,2,3:b:jack,bill,rose
+                 */
+                if( grunt.option( 'multi-vars' ) ){
+
+                    var multiVars = grunt.option( 'multi-vars' );
+                    var cmdVarsChunk = multiVars.split( ':' );
+                    cmdVarsChunk.forEach(function( v ){
+                        var name = v.substring( 0, v.indexOf( '=' ) );
+                        var values = v.substring( v.indexOf( '=' ) + 1 );
+                        if( name && values ){
+                            values = values.split( ',' );
+                        }
+
+                        if( values.length == 1 ){
+                            vars[ name ] = values[ 0 ];
+                        }
+                        else {
+                            vars[ name ] = values;
+                        }
+                    });
+                }
 
                 grunt.util._.each( vars, function( value, key ){
 
@@ -141,10 +165,6 @@ module.exports = function (grunt) {
                         else {
                             console.log( result.stdout.replace( '\n\u001b[32mDone, without errors.\u001b[39m', '' ) );
                         }
-                    }, function( child ){
-                        child.stdout.on('data', function (data) {
-                            console.log( data.toString( 'utf8') );
-                        });
                     });
                 });
             }

@@ -87,6 +87,14 @@ module.exports = function (grunt) {
                         targetPage: '<%= page_list %>'
                     }
                 }
+            },
+            command: {
+                options: {
+                    config: {
+                        targetPage: '<%= page_list %>',
+                        outTarget: '<%= out_target %>'
+                    }
+                }
             }
         }
     });
@@ -98,4 +106,5 @@ module.exports = function (grunt) {
     grunt.registerTask('external', [ 'multi:external', 'copy' ]);
     grunt.registerTask('constant', [ 'multi:constant', 'copy' ]);
     grunt.registerTask('func', [ 'multi:func', 'copy' ]);
+    grunt.registerTask('cmd', [ 'multi:command', 'copy' ]);
 };
