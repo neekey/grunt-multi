@@ -41,7 +41,8 @@ module.exports = function (grunt) {
                     },
                     config: {
                         targetPage: '<%= page_list %>'
-                    }
+                    },
+                    tasks: [ 'copy' ]
                 }
             },
             list: {
@@ -51,7 +52,8 @@ module.exports = function (grunt) {
                     },
                     config: {
                         targetPage: '<%= page_list %>'
-                    }
+                    },
+                    tasks: [ 'copy' ]
                 }
             },
             external: {
@@ -61,7 +63,8 @@ module.exports = function (grunt) {
                     },
                     config: {
                         targetPage: '<%= page_list %>'
-                    }
+                    },
+                    tasks: [ 'copy' ]
                 }
             },
             constant: {
@@ -73,7 +76,8 @@ module.exports = function (grunt) {
                     config: {
                         targetPage: '<%= page_list %>',
                         outTarget: '<%= out_target %>'
-                    }
+                    },
+                    tasks: [ 'copy' ]
                 }
             },
             func: {
@@ -85,7 +89,8 @@ module.exports = function (grunt) {
                     },
                     config: {
                         targetPage: '<%= page_list %>'
-                    }
+                    },
+                    tasks: [ 'copy' ]
                 }
             },
             command: {
@@ -93,7 +98,8 @@ module.exports = function (grunt) {
                     config: {
                         targetPage: '<%= page_list %>',
                         outTarget: '<%= out_target %>'
-                    }
+                    },
+                    tasks: [ 'copy' ]
                 }
             }
         }
@@ -101,10 +107,4 @@ module.exports = function (grunt) {
 
     grunt.task.loadTasks( '../../tasks' );
     grunt.task.loadNpmTasks('grunt-contrib-copy' );
-    grunt.registerTask('list', [ 'multi:list', 'copy' ]);
-    grunt.registerTask('pattern', [ 'multi:pattern', 'copy' ]);
-    grunt.registerTask('external', [ 'multi:external', 'copy' ]);
-    grunt.registerTask('constant', [ 'multi:constant', 'copy' ]);
-    grunt.registerTask('func', [ 'multi:func', 'copy' ]);
-    grunt.registerTask('cmd', [ 'multi:command', 'copy' ]);
 };

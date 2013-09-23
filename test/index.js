@@ -50,7 +50,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt list --multi --debug', function (error, stdout, stderr) {
+        ChildProcess.exec( 'grunt multi:list --debug', function (error, stdout, stderr) {
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
             if (error) {
@@ -75,7 +75,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt pattern --multi --debug', function (error, stdout, stderr) {
+        ChildProcess.exec( 'grunt multi:pattern --debug', function (error, stdout, stderr) {
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
             if (error) {
@@ -100,7 +100,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt external --multi --debug', function (error, stdout, stderr) {
+        ChildProcess.exec( 'grunt multi:external --debug', function (error, stdout, stderr) {
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
             if (error) {
@@ -125,7 +125,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt constant --multi --debug', function (error, stdout, stderr) {
+        ChildProcess.exec( 'grunt multi:constant --debug', function (error, stdout, stderr) {
             console.log( stdout);
             console.log( stderr);
             if (error) {
@@ -150,7 +150,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt func --multi --debug', function (error, stdout, stderr) {
+        ChildProcess.exec( 'grunt multi:func --debug', function (error, stdout, stderr) {
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
             if (error) {
@@ -175,7 +175,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt cmd --multi --debug --multi-vars page_list=a,b,c:out_target=mod2.js', function (error, stdout, stderr) {
+        ChildProcess.exec( 'grunt multi:command --multi-vars page_list=a,b,c:out_target=mod2.js --debug ', function (error, stdout, stderr) {
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
             if (error) {

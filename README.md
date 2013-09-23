@@ -57,7 +57,8 @@ multi: {
             },
             config: {
                 targetPage: '<%= page_list %>'
-            }
+            },
+            tasks: [ 'copy' ]
         }
     },
     // Also you can specify a list.
@@ -68,7 +69,8 @@ multi: {
             },
             config: {
                 targetPage: '<%= page_list %>'
-            }
+            },
+            tasks: [ 'copy' ]
         }
     },
     // A more smart way might be read from an external file.
@@ -79,7 +81,8 @@ multi: {
             },
             config: {
                 targetPage: '<%= page_list %>'
-            }
+            },
+            tasks: [ 'copy' ]
         }
     },
     // However, sometimes you may want to specify a constant variable.
@@ -92,7 +95,8 @@ multi: {
             config: {
                 targetPage: '<%= page_list %>',
                 outTarget: '<%= out_target %>'
-            }
+            },
+            tasks: [ 'copy' ]
         }
     },
     // For the consideration of flexibility，you can use a function, but note that the return value, must be either an Array or String.
@@ -105,26 +109,19 @@ multi: {
             },
             config: {
                 targetPage: '<%= page_list %>'
-            }
+            },
+            tasks: [ 'copy' ]
         }
     }
 }
 ```
 
-After configuration you must add the `multi` task in front of your task List, change the code like below:
-
-```js
-grunt.registerTask('build', [ 'multi:list', 'copy' ]);
-```
-
-But when you run `grunt build` again, nothing magic happen. That's the point, for the risk of ruining your old task, the `grunt-multi` would not work until you specify a `--multi` flag, so just try it, nothing will hurt you.
-
-One more thing, you can also add an additional flat `--debug` to console out the particular configuration for a single thread.
+After configuration you just run `grunt multi:func`( or any defined sub task ) to execute the multi version of copy.
  
 ### Specify `vars` with command
 
 ```bash
-$ grunt build --multi --multi-vars page_list=a,b,c:outTarget=mod2.js
+$ grunt multi:func --multi-vars page_list=a,b,c:outTarget=mod2.js
 ```
 Note that this will override the configuration in `gruntfile.js`.
 
