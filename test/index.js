@@ -146,6 +146,31 @@ describe('grunt-multi TEST', function () {
         });
     });
 
+    it.only('USE config func', function (done) {
+
+        // 执行grunt
+        // 先安装npm 依赖
+        ChildProcess.exec( 'grunt multi:constant_func --debug', function (error, stdout, stderr) {
+            console.log( stdout);
+            console.log( stderr);
+            if (error) {
+                done( error );
+            }
+            else {
+                assertFiles( [
+                    'build/a/app.js',
+                    'build/a/index.js',
+                    'build/b/home.js',
+                    'build/b/profile.js',
+                    'build/c/dashboard.js',
+                    'build/c/list.js',
+                    'build/mod2.js'
+                ]);
+                done(null);
+            }
+        });
+    });
+
     it('USE func', function (done) {
 
         // 执行grunt

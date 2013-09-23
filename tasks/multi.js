@@ -13,7 +13,7 @@ module.exports = function (grunt) {
         // Get the raw config and try to update.
         var rawConfig = grunt.config.getRaw();
         // Get the special config
-        var singleInfo = JSON.parse( decodeURIComponent( grunt.option( 'multi-single-info' ) ) );
+        var singleInfo = JSON.parse(process.env._grunt_multi_info);
         var singleCfg = singleInfo.config;
         var singleTasks = singleInfo.tasks;
 
@@ -47,8 +47,11 @@ module.exports = function (grunt) {
         // Get the raw `multi` config, in case the glob-patterns have been replaced by grunt automatically.
         var options = grunt.config.getRaw( this.name )[ this.target ].options;
         var vars = options.vars || {};
+        var ifContinued = options.continued;
         // Stringify the config, to simplify the template process.
-        var configStr = JSON.stringify( options.config );
+        var configFunc = {};
+        var configNotFunc = {};
+        var configStr = '';
         var tasks = options.tasks || [];
         // All the var lists go here
         var varList = {};
@@ -65,6 +68,21 @@ module.exports = function (grunt) {
          * @type {Array}
          */
         var configs = [];
+
+        /**
+         * Separate the option.config
+         */
+        grunt.util._.each( options.config, function( cfg, key ){
+
+            if( grunt.util._.isFunction( cfg ) ){
+                configFunc[ key ] = cfg;
+            }
+            else {
+                configNotFunc[ key ] = cfg;
+            }
+        });
+
+        configStr = JSON.stringify( configNotFunc );
 
         /**
          * If multi-vars specified, it will override the configuration.
@@ -137,7 +155,11 @@ module.exports = function (grunt) {
         // Render the configs.
         configDatas.forEach(function( data, index ){
             var config = grunt.template.process( configStr, { data: data } );
-            configs.push( JSON.parse( config ) );
+            var cfgObj = JSON.parse( config );
+            grunt.util._.each( configFunc, function( func, key ){
+                cfgObj[ key ] = func( data, grunt.config.getRaw() );
+            });
+            configs.push( cfgObj );
         });
 
         var taskLen = configs.length;
@@ -152,21 +174,44 @@ module.exports = function (grunt) {
              * use `--multi-cfg` to pass the single configuration to child process
              * note the configuration is stringify and encoded.
              */
-            var args = [ 'multi-single', '--multi-single-info=' + encodeURIComponent(JSON.stringify( { config: cfg, tasks: tasks })) ];
+            var args = [ 'multi-single' ];
+            if( grunt.util._.indexOf( process.argv, '--debug' ) ){
+                args.push( '--debug' );
+            }
+
             Util.spawn( grunt, {
                 grunt: true,
-                args: args
+                args: args,
+                opts: {
+                    env: grunt.util._.merge( process.env, { _grunt_multi_info: JSON.stringify({ config: cfg, tasks: tasks }) } )
+                },
+                force: ifContinued
             }, function( error, result, code ){
-                taskCount++;
-                if( error ){
-                    console.log( '\n\033[1;31mBuild Error: \033[0m\n', error, result, code  );
-                }
-                else {
-                    console.log( result.stdout.replace( '\n\u001b[32mDone, without errors.\u001b[39m', '' ) );
+                if( !ifContinued ){
+                    taskCount++;
+                    if( error ){
+                        console.log( '\n\033[1;31mBuild Error: \033[0m\n', error, result, code  );
+                    }
+                    else {
+                        console.log( result.stdout.replace( '\n\u001b[32mDone, without errors.\u001b[39m', '' ) );
+                    }
+
+                    if( taskCount == taskLen ){
+                        done();
+                    }
                 }
 
-                if( taskCount == taskLen ){
-                    done();
+            }, function( child ){
+                if( ifContinued ){
+                    child.stdout.on('data', function (data) {
+                        console.log( data.toString( 'utf8') );
+
+                        taskCount++;
+
+                        if( taskCount == taskLen ){
+                            done();
+                        }
+                    });
                 }
             });
         });
