@@ -163,55 +163,61 @@ module.exports = function (grunt) {
         var taskLen = configs.length;
         var taskCount = 0;
 
-        // Let's roll!
-        grunt.util._.each(configs, function( cfg ){
+        if( taskLen > 0 ){
+            // Let's roll!
+            grunt.util._.each(configs, function( cfg ){
 
-            /**
-             * Remove the `node` and `grunt` from argv，and keep the rest as it is.
-             * use `--multi-single` to indicate the thread is a single task generated my Multi.
-             * use `--multi-cfg` to pass the single configuration to child process
-             * note the configuration is stringify and encoded.
-             */
-            var args = [ 'multi-single', '--multi-single' ];
-            if( grunt.util._.indexOf( process.argv, '--debug' ) >= 0 ){
-                args.push( '--debug' );
-            }
-
-            Util.spawn( grunt, {
-                grunt: true,
-                args: args,
-                opts: {
-                    env: grunt.util._.merge( process.env, { _grunt_multi_info: JSON.stringify({ config: cfg, tasks: tasks }) } )
-                },
-                force: ifContinued
-            }, function( error, result, code ){
-                if( !ifContinued ){
-                    taskCount++;
-                    if( error ){
-                        console.log( '\n\033[1;31mBuild Error: \033[0m\n', error, result, code  );
-                    }
-                    else {
-                        console.log( result.stdout.replace( '\n\u001b[32mDone, without errors.\u001b[39m', '' ) );
-                    }
-
-                    if( taskCount == taskLen ){
-                        done();
-                    }
+                /**
+                 * Remove the `node` and `grunt` from argv，and keep the rest as it is.
+                 * use `--multi-single` to indicate the thread is a single task generated my Multi.
+                 * use `--multi-cfg` to pass the single configuration to child process
+                 * note the configuration is stringify and encoded.
+                 */
+                var args = [ 'multi-single', '--multi-single' ];
+                if( grunt.util._.indexOf( process.argv, '--debug' ) >= 0 ){
+                    args.push( '--debug' );
                 }
 
-            }, function( child ){
-                if( ifContinued ){
-                    child.stdout.on('data', function (data) {
-                        console.log( data.toString( 'utf8') );
-
+                Util.spawn( grunt, {
+                    grunt: true,
+                    args: args,
+                    opts: {
+                        env: grunt.util._.merge( process.env, { _grunt_multi_info: JSON.stringify({ config: cfg, tasks: tasks }) } )
+                    },
+                    force: ifContinued
+                }, function( error, result, code ){
+                    if( !ifContinued ){
                         taskCount++;
+                        if( error ){
+                            console.log( '\n\033[1;31mBuild Error: \033[0m\n', error, result, code  );
+                        }
+                        else {
+                            console.log( result.stdout.replace( '\n\u001b[32mDone, without errors.\u001b[39m', '' ) );
+                        }
 
                         if( taskCount == taskLen ){
                             done();
                         }
-                    });
-                }
+                    }
+
+                }, function( child ){
+                    if( ifContinued ){
+                        child.stdout.on('data', function (data) {
+                            console.log( data.toString( 'utf8') );
+
+                            taskCount++;
+
+                            if( taskCount == taskLen ){
+                                done();
+                            }
+                        });
+                    }
+                });
             });
-        });
+        }
+        else {
+            grunt.log.warn( 'No task to run.' );
+            done();
+        }
     });
 };
