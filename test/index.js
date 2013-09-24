@@ -146,7 +146,7 @@ describe('grunt-multi TEST', function () {
         });
     });
 
-    it.only('USE config func', function (done) {
+    it('USE config func', function (done) {
 
         // 执行grunt
         // 先安装npm 依赖

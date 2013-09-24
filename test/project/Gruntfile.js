@@ -87,8 +87,8 @@ module.exports = function (grunt) {
                         out_target: 'mod2.js'
                     },
                     config: {
-                        targetPage: function( vars ){ return vars.page_list; },
-                        outTarget: function( vars ){ return vars.out_target; }
+                        targetPage: function( vars, rawConfig ){ return vars.page_list; },
+                        outTarget: function( vars, rawConfig ){ return vars.out_target; }
                     },
                     tasks: [ 'copy' ]
                 }

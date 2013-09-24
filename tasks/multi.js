@@ -6,9 +6,7 @@ var Util = require( '../lib/utils' );
 module.exports = function (grunt) {
 
     grunt.registerTask( 'multi-single', 'The single task for multi', function(){
-        console.log( '\n' );
         grunt.log.ok( 'A single thread begin:' );
-        console.log( '\n' );
 
         // Get the raw config and try to update.
         var rawConfig = grunt.config.getRaw();
@@ -21,7 +19,7 @@ module.exports = function (grunt) {
         if( grunt.util._.indexOf( process.argv, '--debug' ) >= 0 ){
             console.log( '\033[1;32m--------- Configuration --------\033[0m\n' );
             grunt.util._.each( singleCfg, function( value, key ){
-                console.log( '\033[1;33m' + key + ':', value + '\033[0m' );
+                console.log( '\033[1;33m' + key + ':', JSON.stringify(value) + '\033[0m' );
             });
             console.log( '\033[1;32m\n--------------------------------\033[0m\n' );
         }
@@ -174,8 +172,8 @@ module.exports = function (grunt) {
              * use `--multi-cfg` to pass the single configuration to child process
              * note the configuration is stringify and encoded.
              */
-            var args = [ 'multi-single' ];
-            if( grunt.util._.indexOf( process.argv, '--debug' ) ){
+            var args = [ 'multi-single', '--multi-single' ];
+            if( grunt.util._.indexOf( process.argv, '--debug' ) >= 0 ){
                 args.push( '--debug' );
             }
 

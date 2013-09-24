@@ -112,7 +112,24 @@ multi: {
             },
             tasks: [ 'copy' ]
         }
-    }
+    },
+    // Also you can use function to direct modify the config, this is useful if you want to get more flexible to modify the configuration.
+    // params:
+    //      1、vars: a single instant of the vars you defined
+    //      2、rawConfig: the raw configuration.
+    constant_func: {
+        options: {
+            vars: {
+                page_list: [ 'a', 'b', 'c' ],
+                out_target: 'mod2.js'
+            },
+            config: {
+                targetPage: function( vars, rawConfig ){ return vars.page_list; },
+                outTarget: function( vars, rawConfig ){ return vars.out_target; }
+            },
+            tasks: [ 'copy' ]
+        }
+    },
 }
 ```
 
@@ -124,5 +141,15 @@ After configuration you just run `grunt multi:func`( or any defined sub task ) t
 $ grunt multi:func --multi-vars page_list=a,b,c:outTarget=mod2.js
 ```
 Note that this will override the configuration in `gruntfile.js`.
+
+### How to decide if its a multi-single thread.
+
+In some cases maybe you want to tell if the current thread is a child spawned by `grunt-multi`, just use the `multi-single` option to distinguish:
+
+```
+if( grunt.option( 'multi-single' ) ){
+    console.log( 'Child' );
+}
+```
 
 Enjoy!
