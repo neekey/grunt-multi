@@ -200,7 +200,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt multi:command --multi-vars page_list=a,b,c:out_target=mod2.js --debug ', function (error, stdout, stderr) {
+        ChildProcess.exec( 'grunt multi:command --page_list a,b,c --out_target mod2.js --debug ', function (error, stdout, stderr) {
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
             if (error) {

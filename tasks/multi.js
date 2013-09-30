@@ -83,16 +83,19 @@ module.exports = function (grunt) {
         configStr = JSON.stringify( configNotFunc );
 
         /**
-         * If multi-vars specified, it will override the configuration.
-         * example: --multi-vars a=1,2,3:b:jack,bill,rose
+         * Check if there is any flags specified
+         * --deb=a.b,hello,hhaah
          */
-        if( grunt.option( 'multi-vars' ) ){
 
-            var multiVars = grunt.option( 'multi-vars' );
-            var cmdVarsChunk = multiVars.split( ':' );
-            cmdVarsChunk.forEach(function( v ){
-                var name = v.substring( 0, v.indexOf( '=' ) );
-                var values = v.substring( v.indexOf( '=' ) + 1 );
+        grunt.option.flags().forEach(function( flag ){
+
+            var EX = /--([^=]+)=(.*)/;
+            var ret = EX.exec( flag );
+
+            if( ret ){
+                var name = ret[ 1 ];
+                var values = ret[ 2 ];
+
                 if( name && values ){
                     values = values.split( ',' );
                 }
@@ -103,8 +106,8 @@ module.exports = function (grunt) {
                 else {
                     vars[ name ] = values;
                 }
-            });
-        }
+            }
+        });
 
         grunt.util._.each( vars, function( value, key ){
 
@@ -150,6 +153,11 @@ module.exports = function (grunt) {
             }
         });
 
+        // For no vars specified, just use `config` to modify configuration.
+        if( configDatas.length == 0 && options.config ){
+            configDatas.push( {} );
+        }
+
         // Render the configs.
         configDatas.forEach(function( data, index ){
             var config = grunt.template.process( configStr, { data: data } );
@@ -182,7 +190,7 @@ module.exports = function (grunt) {
                     grunt: true,
                     args: args,
                     opts: {
-                        env: grunt.util._.merge( process.env, { _grunt_multi_info: JSON.stringify({ config: cfg, tasks: tasks }) } )
+                        env: JSON.parse( JSON.stringify( grunt.util._.merge( process.env, { _grunt_multi_info: JSON.stringify({ config: cfg, tasks: tasks }) } ) ) )
                     },
                     force: ifContinued
                 }, function( error, result, code ){
@@ -208,7 +216,13 @@ module.exports = function (grunt) {
                             taskCount++;
 
                             if( taskCount == taskLen ){
-                                done();
+
+                                /** Check if this is the last task.
+                                 * The _queue will like: [ { placeholder: true }, { placeholder: true } ]
+                                 */
+                                if( grunt.task._queue.length >= 3 ){
+                                    done();
+                                }
                             }
                         });
                     }
