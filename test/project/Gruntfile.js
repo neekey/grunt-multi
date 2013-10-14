@@ -114,6 +114,23 @@ module.exports = function (grunt) {
                     },
                     tasks: [ 'copy' ]
                 }
+            },
+            log: {
+                options: {
+                    logBegin: function( vars ){
+                        return 'Begin building page: ' + vars.page_list + ' !';
+                    },
+                    logEnd: function( vars ){
+                        return 'Building page: ' + vars.page_list + ' success!';
+                    },
+                    vars: {
+                        page_list: [ 'a', 'b', 'c' ]
+                    },
+                    config: {
+                        targetPage: '<%= page_list %>'
+                    },
+                    tasks: [ 'copy' ]
+                }
             }
         }
     });

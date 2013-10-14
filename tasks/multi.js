@@ -6,7 +6,6 @@ var Util = require( '../lib/utils' );
 module.exports = function (grunt) {
 
     grunt.registerTask( 'multi-single', 'The single task for multi', function(){
-        grunt.log.ok( 'A single thread begin:' );
 
         // Get the raw config and try to update.
         var rawConfig = grunt.config.getRaw();
@@ -14,6 +13,15 @@ module.exports = function (grunt) {
         var singleInfo = JSON.parse(process.env._grunt_multi_info);
         var singleCfg = singleInfo.config;
         var singleTasks = singleInfo.tasks;
+        var singleBeginLog = singleInfo.beginLog;
+
+        grunt.log.writeln();
+        if( singleBeginLog ){
+            grunt.log.ok( singleBeginLog );
+        }
+        else {
+            grunt.log.ok( 'A single thread begin:' );
+        }
 
         // If --debug is provided.
         if( grunt.util._.indexOf( process.argv, '--debug' ) >= 0 ){
@@ -40,11 +48,14 @@ module.exports = function (grunt) {
 
         var done = this.async();
 
-        grunt.log.ok( 'Begin Multi tasks.' );
+        grunt.log.debug( 'Begin Multi tasks.' );
 
         // Get the raw `multi` config, in case the glob-patterns have been replaced by grunt automatically.
         var options = grunt.config.getRaw( this.name )[ this.target ].options;
-        var vars = options.vars || {};
+        var maxSpawn = options.maxSpawn;
+        var vars = options.vars;
+        var logBegin = options.logBegin;
+        var logEnd = options.logEnd;
         var ifContinued = options.continued;
         // Stringify the config, to simplify the template process.
         var configFunc = {};
@@ -66,6 +77,11 @@ module.exports = function (grunt) {
          * @type {Array}
          */
         var configs = [];
+
+        /**
+         * Set max spawn
+         */
+        Util.spawn.setMax( maxSpawn );
 
         /**
          * Separate the option.config
@@ -96,15 +112,24 @@ module.exports = function (grunt) {
                 var name = ret[ 1 ];
                 var values = ret[ 2 ];
 
-                if( name && values ){
-                    values = values.split( ',' );
+                if( name == 'debug' ){
+                    return;
                 }
 
-                if( values.length == 1 ){
-                    vars[ name ] = values[ 0 ];
-                }
-                else {
-                    vars[ name ] = values;
+                if( name && values ){
+
+                    if( !vars ){
+                        vars = {};
+                    }
+
+                    values = values.split( ',' );
+
+                    if( values.length == 1 ){
+                        vars[ name ] = values[ 0 ];
+                    }
+                    else {
+                        vars[ name ] = values;
+                    }
                 }
             }
         });
@@ -154,7 +179,7 @@ module.exports = function (grunt) {
         });
 
         // For no vars specified, just use `config` to modify configuration.
-        if( configDatas.length == 0 && options.config ){
+        if( !vars && configDatas.length == 0 && options.config ){
             configDatas.push( {} );
         }
 
@@ -173,7 +198,7 @@ module.exports = function (grunt) {
 
         if( taskLen > 0 ){
             // Let's roll!
-            grunt.util._.each(configs, function( cfg ){
+            grunt.util._.each(configs, function( cfg, index ){
 
                 /**
                  * Remove the `node` and `grunt` from argv，and keep the rest as it is.
@@ -186,33 +211,44 @@ module.exports = function (grunt) {
                     args.push( '--debug' );
                 }
 
+                var beginLogString = '';
+
+                if( grunt.util._.isFunction( logBegin ) ){
+                    beginLogString = logBegin( configDatas[ index ] );
+                }
+
                 Util.spawn( grunt, {
                     grunt: true,
                     args: args,
                     opts: {
-                        env: JSON.parse( JSON.stringify( grunt.util._.merge( process.env, { _grunt_multi_info: JSON.stringify({ config: cfg, tasks: tasks }) } ) ) )
+                        env: JSON.parse( JSON.stringify( grunt.util._.merge( process.env, {
+                            _grunt_multi_info: JSON.stringify({ config: cfg, tasks: tasks, beginLog: beginLogString })
+                        } ) ) )
                     },
                     force: ifContinued
                 }, function( error, result, code ){
                     if( !ifContinued ){
                         taskCount++;
+
                         if( error ){
-                            console.log( '\n\033[1;31mBuild Error: \033[0m\n', error, result, code  );
+                            grunt.fail.fatal( result, code );
                         }
                         else {
                             console.log( result.stdout.replace( '\n\u001b[32mDone, without errors.\u001b[39m', '' ) );
+
+                            if( grunt.util._.isFunction( logEnd ) ){
+                                grunt.log.ok( logEnd( configDatas[ index ] ) );
+                                grunt.log.writeln();
+                            }
                         }
 
                         if( taskCount == taskLen ){
                             done();
                         }
                     }
-
                 }, function( child ){
                     if( ifContinued ){
-                        child.stdout.on('data', function (data) {
-                            console.log( data.toString( 'utf8') );
-
+                        child.stdout.on('data', function () {
                             taskCount++;
 
                             if( taskCount == taskLen ){
@@ -225,6 +261,9 @@ module.exports = function (grunt) {
                                 }
                             }
                         });
+
+                        child.stdout.pipe( process.stdout );
+                        child.stderr.pipe( process.stderr );
                     }
                 });
             });
