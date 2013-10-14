@@ -205,7 +205,7 @@ describe('grunt-multi TEST', function () {
         });
     });
 
-    it.only( 'logBegin logEnd', function( done ){
+    it( 'logBegin logEnd', function( done ){
 
 
         // 执行grunt
