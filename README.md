@@ -135,10 +135,19 @@ multi: {
 
 After configuration you just run `grunt multi:func`( or any defined sub task ) to execute the multi version of copy.
  
+### options
+
+Available options:
+
+- `vars`: variables can be used within the next option `config`, in fact `var` is a list, you can get the list by `file pattern`, `array`, `function`(return a list).
+- `config`: the config item you want to change, you can use `vars` as template variables.
+- `tasks`: the tasks you want to run.
+- `continue`: if set to `true`, you indicate that the task will not stop. ( example: watch ).
+
 ### Specify `vars` with command
 
 ```bash
-$ grunt multi:func --multi-vars page_list=a,b,c:outTarget=mod2.js
+$ grunt multi:func --page_list a,b,c --outTarget mod2.js
 ```
 Note that this will override the configuration in `gruntfile.js`.
 
