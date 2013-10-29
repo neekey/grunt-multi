@@ -39,7 +39,7 @@ copy: {
 grunt.registerTask('build', [ 'copy' ]);
 ```
 
-Quite simple, and when you run `grunt build`, you will get all the JS files under `src/a` copyed to `build/a`.
+Quite simple, and when you run `grunt build`, you will get all the JS files under `src/a` copied to `build/a`.
 
 But what if when your project grows larger, maybe you got like `src/b`, `src/c`.. in your project?
 
@@ -73,7 +73,7 @@ multi: {
             tasks: [ 'copy' ]
         }
     },
-    // A more smart way might be read from an external file.
+    // A more smart way might be to read from an external file.
     external: {
         options: {
             vars: {
@@ -99,7 +99,7 @@ multi: {
             tasks: [ 'copy' ]
         }
     },
-    // For the consideration of flexibility，you can use a function, but note that the return value, must be either an Array or String.
+    // For the consideration of flexibility，you can use a function, but note that the return value must be either an Array or String.
     func: {
         options: {
             vars: {
@@ -113,7 +113,7 @@ multi: {
             tasks: [ 'copy' ]
         }
     },
-    // Also you can use function to direct modify the config, this is useful if you want to get more flexible to modify the configuration.
+    // Also you can use a function to directly modify the config. This is useful if you want to get more flexibility to modify the configuration.
     // params:
     //      1、vars: a single instant of the vars you defined
     //      2、rawConfig: the raw configuration.
@@ -133,9 +133,9 @@ multi: {
 }
 ```
 
-After configuration you just run `grunt multi:func`( or any defined sub task ) to execute the multi version of copy.
+After configuration, you just run `grunt multi:func`( or any defined sub task ) to execute the multi version of copy.
  
-### options
+### Options
 
 Available options:
 
@@ -153,7 +153,7 @@ Note that this will override the configuration in `gruntfile.js`.
 
 ### How to decide if its a multi-single thread.
 
-In some cases maybe you want to tell if the current thread is a child spawned by `grunt-multi`, just use the `multi-single` option to distinguish:
+In some cases, maybe you want to tell if the current thread is a child spawned by `grunt-multi`. Just use the `multi-single` option to distinguish:
 
 ```
 if( grunt.option( 'multi-single' ) ){
