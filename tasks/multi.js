@@ -210,6 +210,10 @@ module.exports = function (grunt) {
                 if( grunt.util._.indexOf( process.argv, '--debug' ) >= 0 ){
                     args.push( '--debug' );
                 }
+                // preserve --no-write as well
+                if( grunt.util._.indexOf( process.argv, '--no-write' ) >= 0 ){
+                    args.push( '--no-write' );
+                }
 
                 var beginLogString = '';
 
