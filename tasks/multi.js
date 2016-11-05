@@ -116,6 +116,20 @@ module.exports = function (grunt) {
                     return;
                 }
 
+                if( name == 'multi-tasks' && values ){
+
+                    values = values.split( ',' );
+
+                    if( values.length == 1 ){
+                        tasks = values[ 0 ];
+                    }
+                    else {
+                        tasks = values;
+                    }
+
+                    return;
+                }
+
                 if( name && values ){
 
                     if( !vars ){
