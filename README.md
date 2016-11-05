@@ -163,7 +163,7 @@ Available options:
 - `vars`: variables can be used within the next option `config`, in fact `var` is a list, you can get the list by `file pattern`, `array`, `function`(return a list).
 - `config`: the config item you want to change, you can use `vars` as template variables.
 - `tasks`: the tasks you want to run.
-- `continue`: if set to `true`, you indicate that the task will not stop. ( example: watch ).
+- `continued`: if set to `true`, you indicate that the task will not stop. ( example: watch ).
 - `logBegin`: Function, return log content you want to put in front of a thread.
 - `logEnd`: Function, return log content you want to put after a thread finish.
 - `maxSpawn`: The max number of spawns that can run at the same time.
@@ -171,9 +171,17 @@ Available options:
 ### Specify `vars` with command
 
 ```bash
-$ grunt multi:func --page_list a,b,c --outTarget mod2.js
+$ grunt multi:func --page_list=a,b,c --outTarget=mod2.js
 ```
-Note that this will override the configuration in `gruntfile.js`.
+
+### Specify `continued` with command (defaults to `true`)
+```bash
+$ grunt multi:func --continued
+
+$ grunt multi:func --continued=true|false
+```
+
+Note these options will override the configuration in `Gruntfile.js`.
 
 ### How to decide if its a multi-single thread.
 

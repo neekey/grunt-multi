@@ -99,6 +99,14 @@ module.exports = function (grunt) {
         configStr = JSON.stringify( configNotFunc );
 
         /**
+         * Accepts continued as a parameter
+         * --continued=true|false
+        */
+        if( !grunt.util._.isUndefined( grunt.option('continued') ) ){
+            ifContinued = String(grunt.option('continued')).toLowerCase() == "true";
+        }
+
+        /**
          * Check if there is any flags specified
          * --deb=a.b,hello,hhaah
          */
@@ -112,7 +120,7 @@ module.exports = function (grunt) {
                 var name = ret[ 1 ];
                 var values = ret[ 2 ];
 
-                if( name == 'debug' ){
+                if( name == 'debug' || name == 'continued' ){
                     return;
                 }
 
