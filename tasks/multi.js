@@ -51,7 +51,14 @@ module.exports = function (grunt) {
         grunt.log.debug( 'Begin Multi tasks.' );
 
         // Get the raw `multi` config, in case the glob-patterns have been replaced by grunt automatically.
-        var options = grunt.config.getRaw( this.name )[ this.target ].options;
+        var taskOptions = grunt.config.getRaw( this.name ).options;
+        var targetOptions = grunt.config.getRaw( this.name )[ this.target ].options;
+        // Merges global task options with target specific options
+        var allOptions = [{}].concat([
+            grunt.util.kindOf(taskOptions) === 'object' ? taskOptions : {},
+            grunt.util.kindOf(targetOptions) === 'object' ? targetOptions : {}
+        ]);
+        var options = grunt.util._.extend.apply(null, allOptions);
         var maxSpawn = options.maxSpawn;
         var vars = options.vars;
         var logBegin = options.logBegin;
