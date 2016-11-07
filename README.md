@@ -130,6 +130,27 @@ multi: {
             tasks: [ 'copy' ]
         }
     },
+
+    // Custom logs
+    custom_log: {
+        options: {
+            logBegin: function( vars ){
+                console.log( 'Begin build page: ' + vars.page_list;
+            },
+            logEnd: function( vars ){
+                console.log( 'Page: ' + vars.page_list + ' success';
+            },
+            vars: {
+                page_list: [ 'a', 'b', 'c' ],
+                out_target: 'mod2.js'
+            },
+            config: {
+                targetPage: function( vars, rawConfig ){ return vars.page_list; },
+                outTarget: function( vars, rawConfig ){ return vars.out_target; }
+            },
+            tasks: [ 'copy' ]
+        }
+    },
 }
 ```
 
@@ -143,6 +164,9 @@ Available options:
 - `config`: the config item you want to change, you can use `vars` as template variables.
 - `tasks`: the tasks you want to run.
 - `continue`: if set to `true`, you indicate that the task will not stop. ( example: watch ).
+- `logBegin`: Function, return log content you want to put in front of a thread.
+- `logEnd`: Function, return log content you want to put after a thread finish.
+- `maxSpawn`: The max number of spawns that can run at the same time.
 
 ### Specify `vars` with command
 
