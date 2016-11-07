@@ -168,6 +168,73 @@ Available options:
 - `logEnd`: Function, return log content you want to put after a thread finish.
 - `maxSpawn`: The max number of spawns that can run at the same time.
 
+Options can be specified globally for all `multi` targets and individually within each `multi:target`.
+
+##### Task options (all targets)
+
+```js
+//Both targets (list and constant_func) will inherit task options
+//and wiil have the vars.page_list = [ 'a', 'b', 'c' ]
+multi: {
+    options : {
+        vars: {
+            page_list: [ 'a', 'b', 'c' ]
+        }
+    },
+    list: {
+        options: {
+            config: {
+                targetPage: '<%= page_list %>'
+            },
+            tasks: [ 'copy' ]
+        }
+    },
+    constant_func: {
+        options: {
+            config: {
+                targetPage: function( vars, rawConfig ){ return vars.page_list; },
+            },
+            tasks: [ 'copy' ]
+        }
+    }
+}
+```
+
+##### Target specific options
+
+```js
+//Both targets (list and constant_func) will inherit task options
+//but only list target will have vars.page_list = [ 'a', 'b', 'c' ]
+//In the constant_func target the global vars.page_list will be
+//overwritten by the target specific option vars.page_list = [ 'x', 'y', 'z' ]
+multi: {
+    options : {
+        vars: {
+            page_list: [ 'a', 'b', 'c' ]
+        }
+    },
+    list: {
+        options: {
+            config: {
+                targetPage: '<%= page_list %>'
+            },
+            tasks: [ 'copy' ]
+        }
+    },
+    constant_func: {
+        options: {
+            vars: {
+                page_list: [ 'x', 'y', 'z' ]
+            },
+            config: {
+                targetPage: function( vars, rawConfig ){ return vars.page_list; },
+            },
+            tasks: [ 'copy' ]
+        }
+    }
+}
+```
+
 ### Specify `vars` with command
 
 ```bash
