@@ -250,9 +250,9 @@ $ grunt multi:func --multi-tasks=jshint,build
 
 ### Specify `continued` with command (defaults to `true`)
 ```bash
-$ grunt multi:func --continued
+$ grunt multi:func --option-continued
 
-$ grunt multi:func --continued=true|false
+$ grunt multi:func --option-continued=true|false
 ```
 
 Note these options will override the configuration in `Gruntfile.js`.
