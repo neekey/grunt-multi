@@ -120,26 +120,30 @@ module.exports = function (grunt) {
 
         grunt.option.flags().forEach(function( flag ){
 
-            var EX = /--([^=]+)=(.*)/;
+            var EX = /--(option-)?([^=]+)=(.*)/;
             var ret = EX.exec( flag );
 
             if( ret ){
-                var name = ret[ 1 ];
-                var values = ret[ 2 ];
+                var name = ret[ 2 ];
+                var values = ret[ 3 ];
+                var isOption = !grunt.util._.isUndefined( ret[ 1 ] );
 
                 if( name == 'debug' ){
                     return;
                 }
 
-                if( name == 'multi-tasks' && values ){
+                if( isOption && values ){
 
-                    values = values.split( ',' );
+                    if( name == 'tasks' ){
 
-                    if( values.length == 1 ){
-                        tasks = values[ 0 ];
-                    }
-                    else {
-                        tasks = values;
+                        values = values.split( ',' );
+
+                        if( values.length == 1 ){
+                            tasks = values[ 0 ];
+                        }
+                        else {
+                            tasks = values;
+                        }
                     }
 
                     return;
