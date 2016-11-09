@@ -176,9 +176,9 @@ $ grunt multi:func --page_list=a,b,c --outTarget=mod2.js
 
 ### Specify `tasks` with command (comma separated)
 ```bash
-$ grunt multi:func --multi-tasks=compile
+$ grunt multi:func --option-tasks=compile
 
-$ grunt multi:func --multi-tasks=jshint,build
+$ grunt multi:func --option-tasks=jshint,build
 ```
 
 Note these options will override the configuration in `Gruntfile.js`.
