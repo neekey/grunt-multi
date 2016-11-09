@@ -100,10 +100,10 @@ module.exports = function (grunt) {
 
         /**
          * Accepts continued as a parameter
-         * --continued=true|false
+         * --option-continued=true|false
         */
-        if( !grunt.util._.isUndefined( grunt.option('continued') ) ){
-            ifContinued = String(grunt.option('continued')).toLowerCase() == "true";
+        if( !grunt.util._.isUndefined( grunt.option('option-continued') ) ){
+            ifContinued = String( grunt.option('option-continued') ).toLowerCase() == "true";
         }
 
         /**
@@ -120,7 +120,7 @@ module.exports = function (grunt) {
                 var name = ret[ 1 ];
                 var values = ret[ 2 ];
 
-                if( name == 'debug' || name == 'continued' ){
+                if( name == 'debug' ){
                     return;
                 }
 
