@@ -86,11 +86,6 @@ module.exports = function (grunt) {
         var configs = [];
 
         /**
-         * Set max spawn
-         */
-        Util.spawn.setMax( maxSpawn );
-
-        /**
          * Separate the option.config
          */
         grunt.util._.each( options.config, function( cfg, key ){
@@ -144,6 +139,9 @@ module.exports = function (grunt) {
                         else {
                             tasks = values;
                         }
+                    }
+                    else if( name == 'max-spawn' && !isNaN(values) && values > 0 ){
+                        maxSpawn = parseInt(values, 10);
                     }
 
                     return;
@@ -253,6 +251,11 @@ module.exports = function (grunt) {
                 if( grunt.util._.isFunction( logBegin ) ){
                     beginLogString = logBegin( configDatas[ index ] );
                 }
+
+                /**
+                 * Set max spawn
+                 */
+                Util.spawn.setMax( maxSpawn );
 
                 Util.spawn( grunt, {
                     grunt: true,

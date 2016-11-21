@@ -255,6 +255,11 @@ $ grunt multi:func --option-continued
 $ grunt multi:func --option-continued=true|false
 ```
 
+### Specify `maxSpawn` with command
+```bash
+$ grunt multi:func --option-max-spawn=10
+```
+
 Note these options will override the configuration in `Gruntfile.js`.
 
 ### How to decide if its a multi-single thread.
