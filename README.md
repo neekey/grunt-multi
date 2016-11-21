@@ -181,6 +181,11 @@ $ grunt multi:func --option-tasks=compile
 $ grunt multi:func --option-tasks=jshint,build
 ```
 
+### Specify `maxSpawn` with command
+```bash
+$ grunt multi:func --option-max-spawn=10
+```
+
 Note these options will override the configuration in `Gruntfile.js`.
 
 ### How to decide if its a multi-single thread.
