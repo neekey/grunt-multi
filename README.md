@@ -1,4 +1,4 @@
-# grunt-multi
+# grunt-multi [![Build Status: Linux](https://travis-ci.org/neekey/grunt-multi.svg)](https://travis-ci.org/neekey/grunt-multi) [![Build status: Windows](https://ci.appveyor.com/api/projects/status/at7pq24cggun1k6t?svg=true)](https://ci.appveyor.com/project/neekey/grunt-multi)
 
 Run Grunt task with multi-configuration.
 
