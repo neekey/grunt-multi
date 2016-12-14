@@ -240,7 +240,27 @@ multi: {
 ```bash
 $ grunt multi:func --page_list=a,b,c --outTarget=mod2.js
 ```
-Note that this will override the configuration in `gruntfile.js`.
+
+### Specify `tasks` with command (comma separated)
+```bash
+$ grunt multi:func --option-tasks=compile
+
+$ grunt multi:func --option-tasks=jshint,build
+```
+
+### Specify `continued` with command (defaults to `true`)
+```bash
+$ grunt multi:func --option-continued
+
+$ grunt multi:func --option-continued=true|false
+```
+
+### Specify `maxSpawn` with command
+```bash
+$ grunt multi:func --option-max-spawn=10
+```
+
+Note these options will override the configuration in `Gruntfile.js`.
 
 ### How to decide if its a multi-single thread.
 
