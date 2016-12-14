@@ -30,9 +30,7 @@ describe('grunt-multi TEST', function () {
                         process.chdir( targetDirPath );
 
                         // 先安装npm 依赖
-                        ChildProcess.exec( 'npm install', function (error, stdout, stderr) {
-                            console.log('stdout: ' + stdout);
-                            console.log('stderr: ' + stderr);
+                        exec( 'npm install', function (error, stdout, stderr) {
                             if (error) {
                                 done( error );
                             }
@@ -50,9 +48,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt multi:list --debug', function (error, stdout, stderr) {
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
+        exec( 'grunt multi:list --debug', function (error, stdout, stderr) {
             if (error) {
                 done( error );
             }
@@ -75,9 +71,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt multi:pattern --debug', function (error, stdout, stderr) {
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
+        exec( 'grunt multi:pattern --debug', function (error, stdout, stderr) {
             if (error) {
                 done( error );
             }
@@ -100,9 +94,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt multi:external --debug', function (error, stdout, stderr) {
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
+        exec( 'grunt multi:external --debug', function (error, stdout, stderr) {
             if (error) {
                 done( error );
             }
@@ -125,9 +117,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt multi:constant --debug', function (error, stdout, stderr) {
-            console.log( stdout);
-            console.log( stderr);
+        exec( 'grunt multi:constant --debug', function (error, stdout, stderr) {
             if (error) {
                 done( error );
             }
@@ -150,9 +140,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt multi:constant_func --debug', function (error, stdout, stderr) {
-            console.log( stdout);
-            console.log( stderr);
+        exec( 'grunt multi:constant_func --debug', function (error, stdout, stderr) {
             if (error) {
                 done( error );
             }
@@ -175,9 +163,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt multi:func --debug', function (error, stdout, stderr) {
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
+        exec( 'grunt multi:func --debug', function (error, stdout, stderr) {
             if (error) {
                 done( error );
             }
@@ -200,9 +186,7 @@ describe('grunt-multi TEST', function () {
 
         // 执行grunt
         // 先安装npm 依赖
-        ChildProcess.exec( 'grunt multi:command --page_list a,b,c --out_target mod2.js --debug ', function (error, stdout, stderr) {
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
+        exec( 'grunt multi:command --page_list a,b,c --out_target mod2.js --debug ', function (error, stdout, stderr) {
             if (error) {
                 done( error );
             }
@@ -221,6 +205,29 @@ describe('grunt-multi TEST', function () {
         });
     });
 
+    it( 'logBegin logEnd', function( done ){
+
+
+        // 执行grunt
+        // 先安装npm 依赖
+        exec( 'grunt multi:log --debug ', function (error, stdout, stderr) {
+            if (error) {
+                done( error );
+            }
+            else {
+                assertFiles( [
+                    'build/a/app.js',
+                    'build/a/index.js',
+                    'build/b/home.js',
+                    'build/b/profile.js',
+                    'build/c/dashboard.js',
+                    'build/c/list.js',
+                    'build/mod1.js'
+                ]);
+                done(null);
+            }
+        });
+    });
 });
 
 
@@ -228,4 +235,10 @@ function assertFiles( files ){
     files.forEach(function( file ){
         Assert.strictEqual( FS.existsSync( file ), true );
     });
+}
+
+function exec( cmd, next ){
+    var child = ChildProcess.exec( cmd, next );
+    child.stdout.pipe( process.stdout );
+    child.stderr.pipe( process.stderr );
 }
