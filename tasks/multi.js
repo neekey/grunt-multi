@@ -51,7 +51,14 @@ module.exports = function (grunt) {
         grunt.log.debug( 'Begin Multi tasks.' );
 
         // Get the raw `multi` config, in case the glob-patterns have been replaced by grunt automatically.
-        var options = grunt.config.getRaw( this.name )[ this.target ].options;
+        var taskOptions = grunt.config.getRaw( this.name ).options;
+        var targetOptions = grunt.config.getRaw( this.name )[ this.target ].options;
+        // Merges global task options with target specific options
+        var allOptions = [{}].concat([
+            grunt.util.kindOf(taskOptions) === 'object' ? taskOptions : {},
+            grunt.util.kindOf(targetOptions) === 'object' ? targetOptions : {}
+        ]);
+        var options = grunt.util._.extend.apply(null, allOptions);
         var maxSpawn = options.maxSpawn;
         var vars = options.vars;
         var logBegin = options.logBegin;
@@ -79,11 +86,6 @@ module.exports = function (grunt) {
         var configs = [];
 
         /**
-         * Set max spawn
-         */
-        Util.spawn.setMax( maxSpawn );
-
-        /**
          * Separate the option.config
          */
         grunt.util._.each( options.config, function( cfg, key ){
@@ -99,20 +101,49 @@ module.exports = function (grunt) {
         configStr = JSON.stringify( configNotFunc );
 
         /**
+         * Accepts continued as a parameter
+         * --option-continued=true|false
+        */
+        if( !grunt.util._.isUndefined( grunt.option('option-continued') ) ){
+            ifContinued = String( grunt.option('option-continued') ).toLowerCase() == "true";
+        }
+
+        /**
          * Check if there is any flags specified
          * --deb=a.b,hello,hhaah
          */
 
         grunt.option.flags().forEach(function( flag ){
 
-            var EX = /--([^=]+)=(.*)/;
+            var EX = /--(option-)?([^=]+)=(.*)/;
             var ret = EX.exec( flag );
 
             if( ret ){
-                var name = ret[ 1 ];
-                var values = ret[ 2 ];
+                var name = ret[ 2 ];
+                var values = ret[ 3 ];
+                var isOption = !grunt.util._.isUndefined( ret[ 1 ] );
 
                 if( name == 'debug' ){
+                    return;
+                }
+
+                if( isOption && values ){
+
+                    if( name == 'tasks' ){
+
+                        values = values.split( ',' );
+
+                        if( values.length == 1 ){
+                            tasks = values[ 0 ];
+                        }
+                        else {
+                            tasks = values;
+                        }
+                    }
+                    else if( name == 'max-spawn' && !isNaN(values) && values > 0 ){
+                        maxSpawn = parseInt(values, 10);
+                    }
+
                     return;
                 }
 
@@ -220,6 +251,11 @@ module.exports = function (grunt) {
                 if( grunt.util._.isFunction( logBegin ) ){
                     beginLogString = logBegin( configDatas[ index ] );
                 }
+
+                /**
+                 * Set max spawn
+                 */
+                Util.spawn.setMax( maxSpawn );
 
                 Util.spawn( grunt, {
                     grunt: true,
