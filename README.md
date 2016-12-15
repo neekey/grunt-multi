@@ -1,4 +1,4 @@
-# grunt-multi [![Build Status: Linux](https://travis-ci.org/rerodrigues/grunt-multi.svg)](https://travis-ci.org/rerodrigues/grunt-multi) [![Build status: Windows](https://ci.appveyor.com/api/projects/status/at7pq24cggun1k6t?svg=true)](https://ci.appveyor.com/project/rerodrigues/grunt-multi)
+# grunt-multi [![Build Status: Linux](https://travis-ci.org/rerodrigues/grunt-multi.svg?branch=master)](https://travis-ci.org/rerodrigues/grunt-multi) [![Build status: Windows](https://ci.appveyor.com/api/projects/status/at7pq24cggun1k6t/branch/master?svg=true)](https://ci.appveyor.com/project/rerodrigues/grunt-multi)
 
 > Run Grunt task with multi-configuration.
 
