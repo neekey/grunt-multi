@@ -1,6 +1,6 @@
 {
     "name": "grunt-multi",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "Run Grunt task with multi-configuration.",
     "scripts": {
         "test": "mocha -t 0 -R spec"
@@ -19,6 +19,10 @@
         {
             "name": "yinruo",
             "email": "yinruo.nyj@taobao.com"
+        },
+        {
+            "name": "Renato Rodrigues",
+            "url" : "https://github.com/rerodrigues"
         }
     ],
     "license": "MIT",
