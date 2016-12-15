@@ -155,7 +155,7 @@ multi: {
 ```
 
 After configuration, you just run `grunt multi:func`( or any defined sub task ) to execute the multi version of copy.
- 
+
 ### Options
 
 Available options:
@@ -271,5 +271,11 @@ if( grunt.option( 'multi-single' ) ){
     console.log( 'Child' );
 }
 ```
+
+### Contributing
+
+Your contribution is always welcome. You can contribute with suggestions, comments, reporting issues and of course with code!
+
+If you are planning to submit code please check these simple [development rules](DEVELOPMENT_GUIDE.md) created to maintain the existing coding style and ensure that everything still working as expected.
 
 Enjoy!
