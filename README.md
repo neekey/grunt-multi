@@ -1,6 +1,20 @@
-# grunt-multi [![Build Status: Linux](https://travis-ci.org/neekey/grunt-multi.svg)](https://travis-ci.org/neekey/grunt-multi) [![Build status: Windows](https://ci.appveyor.com/api/projects/status/at7pq24cggun1k6t?svg=true)](https://ci.appveyor.com/project/neekey/grunt-multi)
+# grunt-multi [![Build Status: Linux](https://travis-ci.org/rerodrigues/grunt-multi.svg)](https://travis-ci.org/rerodrigues/grunt-multi) [![Build status: Windows](https://ci.appveyor.com/api/projects/status/at7pq24cggun1k6t?svg=true)](https://ci.appveyor.com/project/rerodrigues/grunt-multi)
 
-Run Grunt task with multi-configuration.
+> Run Grunt task with multi-configuration.
+
+## Getting Started
+
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+
+```shell
+npm install grunt-multi --save-dev
+```
+
+Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+
+```js
+grunt.loadNpmTasks('grunt-multi');
+```
 
 ## How to use
 
