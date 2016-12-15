@@ -7,3 +7,10 @@ node_js:
   - 0.12
 before_install:
   - "npm install grunt-cli -g"
+deploy:
+  provider: npm
+  email: renato.sp@gmail.com
+  api_key:
+    secure: s2YnPN+9x/wO7JlPDlVehFrml43Ehipe7Hd8eyf2qwQLBH2ClN0Er503DbR7xmgCrMqGGl1k07hWLiGz3O2GnkNPEOcZoMoLJjaQTqf0APY7jhdbYs6Tv+oujM9pOh8YtQ2Xu/rEJKVBy83U3sL3tJlvAqliiye/XqPb4wjCYY1hAqGPaSaJPPqw4NuycNFiQL5Z5YZC3MwRtnzjNQrC6To+PCgnIRPHT5gn9Nabxc7DecmzMhcDZAEeM1GlhuGBBdMz3wAdtWNElZEaakH6qGY/hA+TE8LDKdE77u168cSDSESSZoGRwb2w1zQ1BI37k/rqBCUpi7yBj35P7FqKj2HtwA2gGk/HM5Zp9IVtSGN5egS+D+aoY8JkuX7WtLoR5FbeEDgQYZvyk3ofHpD8eqvRRqNUB81thdMWbckO+BlLW6w92H3Ex89bp/SYhjWutHIftvskNrmPOoXbQuOheI9ZsB2ou1euT3Tc0hvkLtkOkgp0ag3iluvkr9IfjsqRj9T4gpn4c5zDQHbEcTmmTd5hhPS0qJxjzbnLeu5+HxaRw6PMOd3egoFHfDUxoSZvC77vWkx7VCGEh59QUTnx5cgGRi5djfi9eWDxKhrF63zoSEziXrGfq1Wppn4WgQFR/cZ9sHTjzVnkAyZeoqplchMLXjj/GujKyFJKbHPbx9E=
+  on:
+    tags: true
