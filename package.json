@@ -19,6 +19,10 @@
         {
             "name": "yinruo",
             "email": "yinruo.nyj@taobao.com"
+        },
+        {
+            "name": "Renato Rodrigues",
+            "url" : "https://github.com/rerodrigues"
         }
     ],
     "license": "MIT",
